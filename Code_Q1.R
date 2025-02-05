@@ -66,6 +66,12 @@ streamHistory_per_month_selected %>%
 
 
 #binnen alle artiesten, maandniveau: top 5 per maand? 
-streamHistory_per_month
+top5_per_month <- streamHistory_per_month %>%
+  group_by(month) %>%  # Groepeer per maand
+  slice_max(order_by = total_minutes, n = 5) %>%  # Selecteer de top 5 op basis van luisterminuten
+  ungroup()
 
 
+#kolom per maand, ipv allemaal onder elkaar (ifv leesbaarheid)
+top5_per_month_wide <- top5_per_month %>%
+  pivot_wider(names_from = month, values_from = total_minutes)
